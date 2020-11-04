@@ -26,7 +26,7 @@ namespace NLU.DevOps.Luis.Tests
         public static void ThrowsArgumentNull()
         {
             var luisTestClient = new Mock<ILuisTestClient>().Object;
-            Action nullLuisClient = () => new LuisNLUTestClient(null);
+            Action nullLuisClient = () => new LuisNLUTestClient(null, null, null);
             nullLuisClient.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("luisClient");
 
             using (var luis = new LuisNLUTestClientBuilder().Build())
@@ -504,11 +504,15 @@ namespace NLU.DevOps.Luis.Tests
 
         private class LuisNLUTestClientBuilder
         {
+            public Mock<ILuisConfiguration> LuisConfigurationMock { get; } = new Mock<ILuisConfiguration>();
+
             public Mock<ILuisTestClient> LuisTestClientMock { get; } = new Mock<ILuisTestClient>();
+
+            public Mock<ILuisBatchTestClient> LuisBatchTestClientMock { get; } = new Mock<ILuisBatchTestClient>();
 
             public LuisNLUTestClient Build()
             {
-                return new LuisNLUTestClient(this.LuisTestClientMock.Object);
+                return new LuisNLUTestClient(this.LuisConfigurationMock.Object, this.LuisTestClientMock.Object, this.LuisBatchTestClientMock.Object);
             }
         }
 

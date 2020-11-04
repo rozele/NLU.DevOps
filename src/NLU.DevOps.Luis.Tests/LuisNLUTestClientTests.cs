@@ -12,6 +12,7 @@ namespace NLU.DevOps.Luis.Tests
     using FluentAssertions.Json;
     using Microsoft.Azure.CognitiveServices.Language.LUIS.Authoring.Models;
     using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.Models;
+    using Microsoft.Extensions.Configuration;
     using Models;
     using Moq;
     using Newtonsoft.Json;
@@ -25,8 +26,16 @@ namespace NLU.DevOps.Luis.Tests
         [Test]
         public static void ThrowsArgumentNull()
         {
-            Action nullLuisClient = () => new LuisNLUTestClient(null);
-            nullLuisClient.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("luisClient");
+            var luisConfiguration = new Mock<ILuisConfiguration>().Object;
+            var luisTestClient = new Mock<ILuisTestClient>().Object;
+            var luisBatchTestClient = new Mock<ILuisBatchTestClient>().Object;
+            Action nullLuisConfiguration = () => new LuisNLUTestClient(null, luisTestClient, luisBatchTestClient);
+            Action nullLuisTestClient = () => new LuisNLUTestClient(luisConfiguration, null, luisBatchTestClient);
+            Action nullLuisBatchTestClient = () => new LuisNLUTestClient(luisConfiguration, luisTestClient, null);
+
+            nullLuisConfiguration.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("luisConfiguration");
+            nullLuisTestClient.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("luisTestClient");
+            nullLuisBatchTestClient.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("luisBatchTestClient");
 
             using (var luis = new LuisNLUTestClientBuilder().Build())
             {
@@ -531,10 +540,14 @@ namespace NLU.DevOps.Luis.Tests
 
         private class LuisNLUTestClientBuilder
         {
+            public Mock<ILuisConfiguration> LuisConfigurationMock { get; } = new Mock<ILuisConfiguration>();
+
             public Mock<ILuisTestClient> LuisTestClientMock { get; } = new Mock<ILuisTestClient>();
 
+            public Mock<ILuisBatchTestClient> LuisBatchTestClientMock { get; } = new Mock<ILuisBatchTestClient>();
+
             public LuisNLUTestClient Build() =>
-                new LuisNLUTestClient(this.LuisTestClientMock.Object);
+                new LuisNLUTestClient(this.LuisConfigurationMock.Object, this.LuisTestClientMock.Object, this.LuisBatchTestClientMock.Object);
         }
     }
 }

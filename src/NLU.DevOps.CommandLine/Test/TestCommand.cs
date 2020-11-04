@@ -6,7 +6,9 @@ namespace NLU.DevOps.CommandLine.Test
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Threading.Tasks;
+    using Core;
     using Models;
     using Newtonsoft.Json.Linq;
     using static Serializer;
@@ -27,8 +29,11 @@ namespace NLU.DevOps.CommandLine.Test
         {
             this.Log("Running tests against NLU model...");
 
-            var testUtterances = this.LoadUtterances();
-            var testResults = await testUtterances.SelectAsync(this.TestAsync, this.Options.Parallelism).ConfigureAwait(false);
+            var testUtterances = this.LoadUtterances().ToList();
+
+            var testResults = this.NLUTestClient is INLUBatchTestClient batchTestClient && batchTestClient.IsBatchEnabled && !testUtterances.Any(u => u.SpeechFile != null)
+                ? await batchTestClient.TestAsync(testUtterances.Select(u => u.Query)).ConfigureAwait(false)
+                : await testUtterances.SelectAsync(this.TestAsync, this.Options.Parallelism).ConfigureAwait(false);
 
             Stream getFileStream(string filePath)
             {

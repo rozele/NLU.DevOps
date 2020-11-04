@@ -61,6 +61,11 @@ namespace NLU.DevOps.Luis
         bool AppCreated { get; }
 
         /// <summary>
+        /// Gets a value indicating whether batch evaluations are enabled.
+        /// </summary>
+        bool UseBatch { get; }
+
+        /// <summary>
         /// Gets the Cognitive Services speech key.
         /// </summary>
         string SpeechKey { get; }
@@ -74,21 +79,18 @@ namespace NLU.DevOps.Luis
         /// Gets the Cognitive Services speech endpoint.
         /// </summary>
         Uri SpeechEndpoint { get; }
-
 #if LUIS_V2
+
         /// <summary>
         /// Gets a value indicating whether the REST speech endpoint should be used as opposed to the Speech SDK.
         /// </summary>
         bool UseSpeechEndpoint { get; }
-
 #endif
-#if LUIS_V3
+
         /// <summary>
         /// Gets the LUIS staging name.
         /// </summary>
         string SlotName { get; }
-
-#endif
 
         /// <summary>
         /// Gets a value indicating whether the LUIS model should use direct version publish.
