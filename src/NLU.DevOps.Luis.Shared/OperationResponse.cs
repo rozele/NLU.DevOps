@@ -16,11 +16,10 @@ namespace NLU.DevOps.Luis
         /// <typeparam name="T">Type of response value.</typeparam>
         /// <param name="value">Response value.</param>
         /// <param name="retryAfter">HTTP 'Retry-After' header.</param>
-        /// <param name="operationLocation">HTTP 'Operation-Location' header.</param>
         /// <returns>Instance of <see cref="OperationResponse{T}"/>.</returns>
-        public static OperationResponse<T> Create<T>(T value, string retryAfter = null, string operationLocation = null)
+        public static OperationResponse<T> Create<T>(T value, string retryAfter = null)
         {
-            return new OperationResponse<T>(value, retryAfter, operationLocation);
+            return new OperationResponse<T>(value, retryAfter);
         }
 
         /// <summary>
@@ -33,8 +32,7 @@ namespace NLU.DevOps.Luis
         public static OperationResponse<T> Create<T>(T value, HttpWebResponse response)
         {
             var retryAfter = response?.Headers?[HttpResponseHeader.RetryAfter];
-            var operationLocation = response?.Headers?["Operation-Location"];
-            return Create(value, retryAfter, operationLocation);
+            return Create(value, retryAfter);
         }
     }
 }

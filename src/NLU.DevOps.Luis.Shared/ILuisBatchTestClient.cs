@@ -26,7 +26,7 @@ namespace NLU.DevOps.Luis
         /// <param name="operationId">Operation ID.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>A task to await the operation status.</returns>
-        Task<OperationResponse<string>> GetEvaluationsStatusAsync(string operationId, CancellationToken cancellationToken);
+        Task<OperationResponse<LuisBatchStatusInfo>> GetEvaluationsStatusAsync(string operationId, CancellationToken cancellationToken);
 
         /// <summary>
         /// Gets the batch evaluation results.

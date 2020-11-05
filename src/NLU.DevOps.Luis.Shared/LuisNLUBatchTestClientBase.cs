@@ -104,7 +104,7 @@ namespace NLU.DevOps.Luis
                     jsonObject.Remove("matchText");
                     jsonObject.Remove("matchIndex");
 
-                    // Find the start index of the entity in the utterance 
+                    // Find the start index of the entity in the utterance
                     var count = 0;
                     var startPos = 0;
                     while (count++ <= matchIndex)
@@ -129,14 +129,14 @@ namespace NLU.DevOps.Luis
             var outputJson = inputJson.DeepClone();
 
             // Ensure each entity is in LUIS batch format
-            if (outputJson is JObject jsonObject)
+            if (outputJson is JObject utterance)
             {
                 // Ensure the 'entities' property is not null or undefined
                 // TODO: replace with existence check if the bug is resolved in LUIS batch evaluation API
-                jsonObject["entities"] = jsonObject["entities"] ?? new JArray();
+                utterance["entities"] = utterance["entities"] ?? new JArray();
 
-                var text = jsonObject.Value<string>("text");
-                foreach (var entity in jsonObject["entities"])
+                var text = utterance.Value<string>("text");
+                foreach (var entity in utterance["entities"])
                 {
                     // Modifies in place as we've already cloned the input JSON
                     toLuisBatchEntity(text, entity);

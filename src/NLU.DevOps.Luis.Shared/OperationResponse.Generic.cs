@@ -9,11 +9,10 @@ namespace NLU.DevOps.Luis
     /// <typeparam name="T">Type of response value.</typeparam>
     public class OperationResponse<T>
     {
-        internal OperationResponse(T value, string retryAfter, string operationLocation)
+        internal OperationResponse(T value, string retryAfter)
         {
             this.Value = value;
             this.RetryAfter = retryAfter;
-            this.OperationLocation = operationLocation;
         }
 
         /// <summary>
@@ -25,10 +24,5 @@ namespace NLU.DevOps.Luis
         /// Gets the HTTP 'Retry-After' header.
         /// </summary>
         public string RetryAfter { get; }
-
-        /// <summary>
-        /// Gets the HTTP 'Operation-Location' header.
-        /// </summary>
-        public string OperationLocation { get; }
     }
 }

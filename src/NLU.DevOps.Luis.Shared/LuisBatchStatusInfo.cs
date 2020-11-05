@@ -15,7 +15,7 @@ namespace NLU.DevOps.Luis
         /// </summary>
         /// <param name="status">Evaluation operation status.</param>
         /// <param name="errorDetails">Error details.</param>
-        public LuisBatchStatusInfo(string status, JToken errorDetails)
+        public LuisBatchStatusInfo(string status, string errorDetails)
         {
             this.Status = status;
             this.ErrorDetails = errorDetails;
