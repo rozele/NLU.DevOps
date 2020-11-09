@@ -99,6 +99,37 @@ Options to consider for testing a LUIS model include:
 - [`speechRegion`](#speechregion)
 - [`customSpeechAppId`](#customspeechappid)
 - [`luisUseSpeechEndpoint`](#luisusespeechendpoint)
+- [`luisBatchEndpointExperimental`](#luisbatchendpointexperimental)
+- [`luisUseBatchExperimental`](#luisusebatchexperimental)
+
+### Configuration for batch evaluation
+
+LUIS provides a batch evaluation endpoint that can be used to test an NLU model or slot. There are experimental options to preview this batch evaluation endpoint functionality, which will generate utterance predictions in batches rather than using the prediction endpoint directly. The key thing to consider when using the batch evaluation endpoint is that this endpoint only detects machine learned entities. To use this feature, you need to configure the following settings.
+
+Within an `appsettings.local.json` file use the following:
+
+```json
+{
+  "luisUseBatchExperimental": true,
+  "luisBatchEndpointExperimental": "https://..."
+}
+```
+
+If using environment variables set the values (example shown using Powershell):
+
+```powershell
+$env:luisUseBatchExperimental='true'
+$env:luisBatchEndpointExperimental='https://...'
+```
+
+Example below uses the export command to create environment variables on a Mac:
+
+```vim
+export luisUseBatchExperimental='true'
+export luisBatchEndpointExperimental='https://...'
+```
+
+You may also need to use a different value for the [`luisEndpointKey`](#luisendpointkey) depending on the configuration value for [`luisBatchEndpointExperimental`](#luisbatchendpointexperimental).
 
 ## Configuration for clean
 
@@ -306,6 +337,18 @@ Optional for `test`. When supplied, the `customSpeechAppId` is used to configure
 Optional for `test`. When supplied with `true` value, speech-to-text transcription will use the Cognitive Services REST endpoint for speech as opposed to the [Speech Service SDK](https://docs.microsoft.com/en-us/azure/cognitive-services/speech-service/speech-sdk).
 
 This option is only used for LUIS v2 (i.e., when using `--service luis`).
+
+### `luisUseBatchExperimental`
+
+(Optional) Experimental flag that signals that the LUIS batch evaluation endpoint should be used rather than the prediction endpoint.
+
+Optional for `test`. When supplied with `true` value, the `INLUBatchTestClient` implementation for LUIS will be used, rather than the `INLUTestClient` interface, which batches queries and submits to a batch test endpoint. The batch evaluation endpoint does not test for any deterministic entities (e.g., patterns, regex, list, or pre-built domains).
+
+### `luisBatchEndpointExperimental`
+
+(Optional) Experimental setting to cconfigure the hostname used by the batch testing interface when the [`luisUseBatchExperimental`](#luisusebatchexperimental) flag is set to `true`.
+
+Optional for `test`. Must be supplied when [`luisUseBatchExperimental`](#luisusebatchexperimental) is set to true.
 
 ### `azureSubscriptionId`
 (Optional) Azure subscription ID.
