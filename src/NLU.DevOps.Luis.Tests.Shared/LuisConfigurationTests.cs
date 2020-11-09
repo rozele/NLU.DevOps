@@ -36,6 +36,7 @@ namespace NLU.DevOps.Luis.Tests
         [TestCase(nameof(ILuisConfiguration.PredictionResourceName), "luisPredictionResourceName")]
         [TestCase(nameof(ILuisConfiguration.PredictionResourceName), "azureLuisResourceName")]
         [TestCase(nameof(ILuisConfiguration.ArmToken), "ARM_TOKEN")]
+        [TestCase(nameof(ILuisConfiguration.BatchEndpoint), "luisBatchEndpointExperimental")]
         public static void ReadsStringConfigurationValues(string propertyName, string configurationKey)
         {
             var configuration = new ConfigurationBuilder()
@@ -54,6 +55,7 @@ namespace NLU.DevOps.Luis.Tests
         [Test]
         [TestCase(nameof(ILuisConfiguration.IsStaging), "luisIsStaging")]
         [TestCase(nameof(ILuisConfiguration.DirectVersionPublish), "luisDirectVersionPublish")]
+        [TestCase(nameof(ILuisConfiguration.IsBatchEnabled), "luisUseBatchExperimental")]
 #if LUIS_V2
         [TestCase(nameof(ILuisConfiguration.UseSpeechEndpoint), "luisUseSpeechEndpoint")]
 #endif

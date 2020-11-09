@@ -15,5 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)LuisNLUClientFactoryTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LuisNLUTestClientExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LuisNLUBatchTestClientBaseTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RetryTests.cs" />
   </ItemGroup>
 </Project>

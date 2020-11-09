@@ -25,12 +25,12 @@ namespace NLU.DevOps.Luis
         /// Initializes a new instance of the <see cref="LuisNLUTestClient"/> class.
         /// </summary>
         /// <param name="luisConfiguration">LUIS configuration.</param>
-        /// <param name="luisClient">LUIS client.</param>
+        /// <param name="luisTestClient">LUIS test client.</param>
         /// <param name="luisBatchTestClient">LUIS batch test client.</param>
-        public LuisNLUTestClient(ILuisConfiguration luisConfiguration, ILuisTestClient luisClient, ILuisBatchTestClient luisBatchTestClient)
+        public LuisNLUTestClient(ILuisConfiguration luisConfiguration, ILuisTestClient luisTestClient, ILuisBatchTestClient luisBatchTestClient)
             : base(luisConfiguration, luisBatchTestClient)
         {
-            this.LuisClient = luisClient ?? throw new ArgumentNullException(nameof(luisClient));
+            this.LuisClient = luisTestClient ?? throw new ArgumentNullException(nameof(luisTestClient));
         }
 
         private static ILogger Logger => LazyLogger.Value;

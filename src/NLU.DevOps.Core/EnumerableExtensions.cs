@@ -22,6 +22,16 @@ namespace NLU.DevOps.Core
         /// <returns>Batched collection.</returns>
         public static IEnumerable<IEnumerable<T>> Batch<T>(this IEnumerable<T> items, int batchSize)
         {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            if (batchSize < 1)
+            {
+                throw new ArgumentOutOfRangeException(nameof(batchSize), "Value must be greater than 0.");
+            }
+
             var skip = 0;
             var batch = items.Skip(skip).Take(batchSize);
             while (batch.Any())
@@ -43,6 +53,16 @@ namespace NLU.DevOps.Core
         /// <returns>A task to await the mapped collection.</returns>
         public static async Task<IEnumerable<TResult>> SelectAsync<T, TResult>(this IEnumerable<T> items, Func<T, Task<TResult>> selector, int degreeOfParallelism)
         {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            if (selector == null)
+            {
+                throw new ArgumentNullException(nameof(selector));
+            }
+
             if (degreeOfParallelism < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(degreeOfParallelism), "Value must be greater than zero.");

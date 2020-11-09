@@ -16,7 +16,7 @@ namespace NLU.DevOps.Luis
 
         private static readonly Regex RetryAfterSecondsRegex = new Regex(@"^\d+$");
 
-        public static TimeSpan DefaultTransientDelay { get; } = TimeSpan.FromSeconds(100);
+        public static TimeSpan DefaultTransientDelay { get; } = TimeSpan.FromMilliseconds(100);
 
         public static TimeSpan GetRetryAfterDelay(HttpWebResponse response, TimeSpan defaultDelay)
         {
@@ -52,7 +52,7 @@ namespace NLU.DevOps.Luis
                 catch (WebException ex)
                 when (count < RetryCount && ex.Response is HttpWebResponse response && IsTransientStatusCode(response.StatusCode))
                 {
-                    var delay = GetRetryAfterDelay(ex.Response.Headers[HttpResponseHeader.RetryAfter], DefaultTransientDelay);
+                    var delay = GetRetryAfterDelay(ex.Response.Headers?[HttpResponseHeader.RetryAfter], DefaultTransientDelay);
                     await Task.Delay(delay, cancellationToken).ConfigureAwait(false);
                 }
             }

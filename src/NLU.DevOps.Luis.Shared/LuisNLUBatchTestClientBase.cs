@@ -106,7 +106,7 @@ namespace NLU.DevOps.Luis
 
                     // Find the start index of the entity in the utterance
                     var count = 0;
-                    var startPos = 0;
+                    var startPos = -1;
                     while (count++ <= matchIndex)
                     {
                         startPos = text.IndexOf(matchText, startPos + 1, StringComparison.Ordinal);
