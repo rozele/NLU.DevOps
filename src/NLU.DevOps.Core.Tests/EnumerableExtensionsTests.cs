@@ -36,6 +36,14 @@ namespace NLU.DevOps.Core.Tests
         }
 
         [Test]
+        public static void CreatesBatchesWithRemainder()
+        {
+            var batches = Enumerable.Repeat(0, 3).Batch(2);
+            batches.Count().Should().Be(2);
+            batches.Select(b => b.Count()).Should().BeEquivalentTo(2, 1);
+        }
+
+        [Test]
         public static void DoesNotCreateBatches()
         {
             Array.Empty<int>().Batch(1).Any().Should().BeFalse();

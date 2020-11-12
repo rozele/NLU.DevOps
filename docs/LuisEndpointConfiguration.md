@@ -346,9 +346,9 @@ Optional for `test`. When supplied with `true` value, the `INLUBatchTestClient` 
 
 ### `luisBatchEndpointExperimental`
 
-(Optional) Experimental setting to cconfigure the hostname used by the batch testing interface when the [`luisUseBatchExperimental`](#luisusebatchexperimental) flag is set to `true`.
+(Optional) Experimental setting to configure the hostname used by the batch testing interface when the [`luisUseBatchExperimental`](#luisusebatchexperimental) flag is set to `true`.
 
-Optional for `test`. Must be supplied when [`luisUseBatchExperimental`](#luisusebatchexperimental) is set to true.
+Optional for `test`. Must be supplied when [`luisUseBatchExperimental`](#luisusebatchexperimental) is set to true. Please note, this flag will be ignored if any test utterances contain a `speechFile` property, signaling that speech testing should occur.
 
 ### `azureSubscriptionId`
 (Optional) Azure subscription ID.

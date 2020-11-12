@@ -30,7 +30,8 @@ namespace NLU.DevOps.Luis.Tests
             var delta = 1;
             var retryAfter = DateTimeOffset.Now.AddSeconds(10).ToString("r", CultureInfo.InvariantCulture);
             var delay = Retry.GetRetryAfterDelay(retryAfter, TimeSpan.Zero);
-            delay.TotalSeconds.Should().BeApproximately(10, delta);
+            delay.TotalSeconds.Should().BeLessOrEqualTo(10);
+            delay.TotalSeconds.Should().BeGreaterOrEqualTo(10 - delta);
         }
 
         [Test]
